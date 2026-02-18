@@ -1,16 +1,34 @@
+// Tuodaan tarvittavat työkalut
 const express = require("express");
 const converter = require("./converter");
+
+// Luodaan sovellus
 const app = express();
 
+// Määritellään reitti (osoite), jota palvelin kuuntelee
 app.get("/hex-to-rgb", (req, res) => {
-  const hex = req.query.hex; // Haetaan hex-koodi osoiteriviltä
-  if (!hex) return res.status(400).send("Hex-koodi puuttuu!");
+  // Haetaan heksakoodi osoiteriviltä (esim. ?hex=ffffff)
+  const hex = req.query.hex;
 
-  const rgb = converter.hexToRgb(hex);
-  res.json(rgb); // Vastataan JSON-muodossa
+  // Tarkistetaan, että koodi on annettu
+  if (!hex) {
+    return res.status(400).json({ virhe: "Hex-koodi puuttuu osoitteesta" });
+  }
+
+  // Suoritetaan muunnos ja lähetetään vastaus
+  try {
+    const rgb = converter.hexToRgb(hex);
+    res.json(rgb);
+  } catch (e) {
+    res.status(500).json({ virhe: "Muunnos epäonnistui" });
+  }
 });
 
-module.exports = app; // Viedään app testausta varten
-if (require.main === module) {
-  app.listen(3000, () => console.log("Palvelin käynnissä portissa 3000"));
-}
+// Kerrotaan palvelimelle, missä portissa sen pitää toimia
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Palvelin käynnissä osoitteessa http://localhost:${PORT}`);
+});
+
+// Viedään sovellus ulos, jotta testit voivat käyttää sitä
+module.exports = app;
