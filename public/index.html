@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Värimuunnin UI</title>
+  </head>
+  <body>
+    <h1>REST API Värimuunnin</h1>
+
+    <div style="margin-bottom: 20px; padding: 10px; border: 1px solid black">
+      <h3>Hex -> RGB</h3>
+      <input type="text" id="hexInput" placeholder="esim. 00ff00" />
+      <button onclick="convertHex()">Muunna</button>
+      <p>Tulos: <span id="hexResult">-</span></p>
+    </div>
+
+    <div style="margin-bottom: 20px; padding: 10px; border: 1px solid black">
+      <h3>RGB -> Hex</h3>
+      <input type="text" id="rgbInput" placeholder="esim. 0,255,0" />
+      <button onclick="convertRgb()">Muunna (Stub)</button>
+      <p>Tulos: <span id="rgbResult">-</span></p>
+    </div>
+
+    <script>
+      // Funktio 1: Kutsuu aitoa Hex-to-RGB reittiäsi
+      async function convertHex() {
+        const hex = document.getElementById("hexInput").value;
+        const res = await fetch("/hex-to-rgb?hex=" + hex);
+        const data = await res.json();
+        document.getElementById("hexResult").innerText = res.ok
+          ? `R:${data.r} G:${data.g} B:${data.b}`
+          : data.virhe;
+      }
+
+      // Funktio 2: Feikkitoteutus (Stub), jos backendistä puuttuu tämä logiikka
+      function convertRgb() {
+        document.getElementById("rgbResult").innerText =
+          "#00ff00 (Stub-vastaus)";
+      }
+    </script>
+  </body>
+</html>

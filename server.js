@@ -1,9 +1,11 @@
 // Tuodaan tarvittavat työkalut
 const express = require("express");
 const converter = require("./converter");
+const path = require("path");
 
 // Luodaan sovellus
 const app = express();
+app.use(express.static(path.join(__dirname, "public")));
 
 // Määritellään reitti (osoite), jota palvelin kuuntelee
 app.get("/hex-to-rgb", (req, res) => {
