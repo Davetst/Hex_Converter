@@ -33,6 +33,3 @@ def test_hex_to_rgb_conversion(browser):
     # 5. Varmistetaan, että tulos on täsmälleen oikein
     result_text = browser.find_element(By.ID, "hexResult").text
     assert "R:0 G:255 B:0" in result_text
-
-    # 6. Otetaan vaadittu kuvakaappaus testin onnistumisesta
-    browser.save_screenshot("frontend_test.png")
